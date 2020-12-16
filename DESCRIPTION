@@ -1,0 +1,14 @@
+Package: stat302project2
+Title: This is Project 2 for STAT 302
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Nicholas",
+           family = "Verghese",
+           role = c("aut", "cre"),
+           email = "nicholasverghese23@gmail.com")
+Description: This package contains all the necessary files and information for project 2 in STAT 302.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
