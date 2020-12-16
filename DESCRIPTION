@@ -17,7 +17,8 @@ Imports:
     dplyr,
     magrittr,
     randomForest,
-    class
+    class,
+    tibble
 Suggests: 
     testthat,
     covr,
