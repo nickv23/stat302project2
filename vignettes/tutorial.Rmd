@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, echo=FALSE}
+```{r setup, include=FALSE}
 library(stat302project2)
 library(ggplot2)
 library(dplyr)
@@ -84,9 +84,10 @@ my_df <- data.frame(actual = my_gapminder$lifeExp,
 ggplot(data = my_df, aes(x = fitted, y = actual, color = continent)) + ggplot2::geom_point() +
     geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) +
     theme_bw(base_size = 16) +
+    scale_x_continuous() +
     labs(x = "Fitted Values", y = "Actual Values", title = "Actual Vs Fitted Life Expectancy") +
     theme_dark() +
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(plot.title = element_text(hjust = 0.5)) 
 
 
 ```
@@ -143,10 +144,11 @@ df_all <- data.frame(df2, df5, df10)
 ggplot(df2, aes(k, MSE)) + geom_boxplot() +
     geom_boxplot(data = df5) +
     geom_boxplot(data = df10) +
-    labs(x = "Folds", y = "Mean Squared Error", title = "Error for randomForests of Different Folds") +
+    labs(x = "Folds", y = "Mean Squared Error", title = "Error For RandomForests Of Different Folds") +
     theme_bw(base_size = 16) +
+    scale_x_continuous() +
     theme_dark() +
-    theme(plot.title = element_text(hjust = 0.5))
+    theme(plot.title = element_text(hjust = 0.5)) 
 
 
 ```
