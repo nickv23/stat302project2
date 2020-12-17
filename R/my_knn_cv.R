@@ -1,29 +1,51 @@
+#' Nearest Neighbor Cross-Validation Function
+#'
+#' This function uses performs k nearest neighbors to predict an output class and cross validation to
+#'   calculate the misclassification rate.
+#'
+#' @param train - An input data frame
+#' @param cl - Vector of the true class values of the training data
+#' @param k_nn - Numeric representing the number of neighbors
+#' @param k_cv - Numeric representing the number of folds
+#' @keywords prediction
+#'
+#' @return A list with two objects:
+#' \itemize {
+#' \item class - Vector with the predicted class values of the testing data
+#' \item cv_err - Numeric representing the rate of misclassification
+#' }
+#'
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr "select"
+#' @import stats dplyr magrittr randomForest class tidyr
+#'
+#' @examples
+#' penguins_data <- na.omit(my_penguins)
+#' true_class <- penguins_data$species
+#' penguins_data <- penguins_data %>% dplyr::select(-island, -year, -sex, -species)
+#' my_knn_cv(penguins_data, true_class, 3, 5)
+#' my_knn_cv(penguins_data, true_class, 5, 5)
+#' my_knn_cv(penguins_data, true_class, 10, 5)
+#'
+#' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
 
   fold <- sample(rep(1:k_cv, length = nrow(train)))
   data <- data.frame(train, "split" = fold)
-  class <- c()
+  class <- knn(train, train, cl, k_nn)
   mse <- c()
+
 
   # For loop that determines the test and training folds and runs knn model
   for (i in 1:k_cv) {
-    data_train <- data %>% filter(data$split != i)
-    data_train <- data_train[3:6]
-    train_cl <- data %>% filter(data$split != i) %>% pull(species)
-    data_test <- data %>% filter(split == i)
-    data_test <- data_test[3:6]
-    test_cl <- data %>% filter(data$split == i) %>% pull(species)
-    test_pred <- knn(train = data_train, test = data_test, cl = train_cl, k = k_nn)
-    class[fold == i] <- test_pred
-    pred_mat <- data.frame(test_cl, test_pred)
-    count <- 0
-    # For loop that determines misclassification rate for one fold
-    for (j in 1:nrow(pred_mat)) {
-      if (pred_mat[j, 1] == pred_mat[j, 2]) {
-        count <- count + 1
-      }
-    }
-    mse[i] <- 1 - (count / nrow(pred_mat))
+    data_train <- data %>% dplyr::filter(data$split != i) %>% dplyr::select(-split)
+    train_cl <- cl[fold != i]
+
+    data_test <- data %>% dplyr::filter(split == i) %>% dplyr::select(-split)
+    test_cl <- cl[fold == i]
+
+    test_pred <- knn(data_train, data_test, train_cl, k_nn)
+    mse[i] <- mean(test_pred != test_cl)
   }
 
   cv_err <- mean(mse)
