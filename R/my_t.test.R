@@ -2,17 +2,17 @@
 #'
 #' This function runs a one sample t test.
 #'
-#' @param x - Numeric vector of data
-#' @param alternative - Character that represents what the alternative hypothesis is
-#' @param mu - Numeric that represents the null hypothesis value for the mean
+#' @param x - Numeric vector of data.
+#' @param alternative - Character that represents what the alternative hypothesis is.
+#' @param mu - Numeric that represents the null hypothesis value for the mean.
 #' @keywords inference
 #'
 #' @return A list with the following variables:
 #' \itemize {
-#' \item test_stat - A numeric representing the t value
-#' \item df - A numeric representing the degrees of freedom
-#' \item alternative - A character that represents what the alternative hypothesis is
-#' \item p_val - A numeric representing the p value
+#' \item test_stat - A numeric representing the t value.
+#' \item df - A numeric representing the degrees of freedom.
+#' \item alternative - A character that represents what the alternative hypothesis is.
+#' \item p_val - A numeric representing the p value.
 #' }
 #'
 #' @examples

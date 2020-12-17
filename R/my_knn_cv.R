@@ -3,16 +3,16 @@
 #' This function uses performs k nearest neighbors to predict an output class and cross validation to
 #'   calculate the misclassification rate.
 #'
-#' @param train - An input data frame
-#' @param cl - Vector of the true class values of the training data
-#' @param k_nn - Numeric representing the number of neighbors
-#' @param k_cv - Numeric representing the number of folds
+#' @param train - An input data frame.
+#' @param cl - Vector of the true class values of the training data.
+#' @param k_nn - Numeric representing the number of neighbors.
+#' @param k_cv - Numeric representing the number of folds.
 #' @keywords prediction
 #'
 #' @return A list with two objects:
 #' \itemize {
-#' \item class - Vector with the predicted class values of the testing data
-#' \item cv_err - Numeric representing the rate of misclassification
+#' \item class - Vector with the predicted class values of the testing data.
+#' \item cv_err - Numeric representing the rate of misclassification.
 #' }
 #'
 #' @importFrom magrittr "%>%"

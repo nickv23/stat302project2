@@ -3,10 +3,10 @@
 #' This function uses performs random forests to predict the body mass of penguins using the bill length, bill depth,
 #'   and flipper length and calculates the misclassification error.
 #'
-#' @param k - Numeric indicating the number of folds
+#' @param k - A numeric indicating the number of folds.
 #' @keywords prediction
 #'
-#' @return A numeric indicating the cross-validation error
+#' @return A numeric indicating the cross-validation error.
 #'
 #' @examples
 #' my_rf_cv(5)
