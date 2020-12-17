@@ -1,3 +1,18 @@
+#' Linear Regression Function
+#'
+#' This function runs a linear regression on a set of data.
+#'
+#' @param formula A class object used to fit models
+#' @param data An input data frame
+#' @keywords inference, prediction
+#'
+#' @return A table with four numbers representing the estimate, standard error, t value, and Pr(>|t|)
+#'   for each coefficient
+#'
+#' @examples
+#' my_lm(mpg ~ hp + wt, data = mtcars)
+#'
+#' @export
 my_lm <- function(formula, data) {
 
   # Set up x and y matrices, determine degrees of freedom
