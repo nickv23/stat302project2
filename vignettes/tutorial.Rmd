@@ -15,6 +15,148 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(stat302project2)
+library(ggplot2)
+library(dplyr)
+library(magrittr)
+library(class)
+library(randomForest)
 ```
+
+1. Welcome to the stat302project2 package. This package provides four useful functions for conducting statistical analyses. These functions include a one sample t test, a function for fitting linear models, a function for statistical predictions using the k nearest neighbors formula, and another function for statistical predictions that uses the random forest formula.Throughout this tutorial, we show examples of how to use these functions using two different types of datasets. The first dataset is called my_gapminder, and it contains information about statistics related to different countries such as life expectancy, population, GDP per capita, etc. The second dataset is called my_penguins and it contains stats on different species of penguins and their features such as bill length, bill depth, flipper length, etc. If you would like to use this package, simply copy and paste the code below into your Rstudio console.
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("nickv23/stat302project2")
+library(stat302project2)
+
+```
+
+2. T Test Tutorial
+
+In this next section, we are going to demonstrate how to use the t test function with life expectancy data from my_gapminder. We will show how to run t tests as a two sided test and a one sided test where the expected mean is 60 and the p value cut off is 0.05.
+
+```{r}
+print(my_t.test(my_gapminder$lifeExp, alternative = "two.sided", mu = 60))
+
+```
+
+In this instance above, we are running a two sided t test to determine whether the expected life expectancy is 60 or not. Because our p value is equivalent to ~0.09, we cannot conclude that the calculated mean did not occur by random chance, and therefore, we don't reject the hypothesis that the expected life expectancy is 60.
+
+```{r}
+print(my_t.test(my_gapminder$lifeExp, alternative = "greater", mu = 60))
+
+```
+
+In this instance above, we are running a one sided t test to determine whether the expected life expectancy is greater than 60 or not. Because our p value is greater than our threshold of 0.05, we cannot reject the null hypothesis that the mean life expectancy is 60.
+
+```{r}
+print(my_t.test(my_gapminder$lifeExp, alternative = "less", mu = 60))
+
+```
+
+In this instance above, we are running a one sided t test to determine whether the expected life expectancy is less than 60 or not. Because our p value of 0.046 is less than the threshold of 0.05, we can conclude that the chance of reaching our calculated mean by random chance is statistically insignificant, and we can reject the null hypothesis that the mean life expectancy is equal to 60.
+
+
+
+3. Linear Regression Model Tutorial
+
+In this section, we are going to move on to the linear regression model.
+
+```{r}
+linear_model <- my_lm(my_gapminder$lifeExp ~ my_gapminder$gdpPercap+my_gapminder$continent, my_gapminder)
+linear_model
+
+```
+
+Now that we have our regression model, we have to learn how to interpret it. For example, the first coefficient estimate in the table is 0.000445, for GDP per capita. This number indicates how much the life expectancy goes up per every unit of GDP per capita (in this case, the unit is dollars), assuming all other coefficients remain fixed.
+
+One neat feature about the results table from the linear regression is that the final variable Pr(>|t|) gives us the p value for a hypothesis test that assumes the coefficient is equal to 0. Similar to what we did in the t test section, we can use our Pr(>|t|) value of 8.55e^-73 and a p value cut off of 0.05 to reject the null hypothesis that the GDP per capita coefficient estimate is equal to 0.
+
+```{r}
+model <- lm(my_gapminder$lifeExp ~ my_gapminder$gdpPercap + my_gapminder$continent, my_gapminder)
+fitted_model <- fitted(model)
+my_df <- data.frame(actual = my_gapminder$lifeExp, 
+                    fitted = fitted_model,
+                    continent = my_gapminder$continent)
+
+ggplot(data = my_df, aes(x = fitted, y = actual, color = continent)) + ggplot2::geom_point() +
+    geom_abline(slope = 1, intercept = 0, col = "red", lty = 2) +
+    theme_bw(base_size = 16) +
+    labs(x = "Fitted Values", y = "Actual Values", title = "Actual Vs Fitted Life Expectancy") +
+    theme_dark() +
+    theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+This plot shows us that our model works best from the age range of 65 to 80. Anything life expectancy lower than 60 does not fit well with our model.
+
+
+
+4. In this section, we are going to go over the function for predicting outputs using the k nearest neighbors method.
+
+```{r}
+penguins_data <- na.omit(my_penguins)
+true_class <- penguins_data$species
+penguins_data <- penguins_data %>% dplyr::select(-island, -year, -sex, -species)
+cv_errs <- c()
+train_errs <- c()
+
+for (i in 1:10) {
+  penguin_results <- my_knn_cv(penguins_data, true_class, i, 5)
+  train_errs[i] <- mean(penguin_results$Predictions != true_class)
+  cv_errs[i] <- penguin_results$CV_err
+}
+
+cv_errs
+train_errs
+
+```
+
+If I were to choose a model based off of the training error, I would go with knn_model of 1 because it has no error at all. If I were to choose a model based off the cv error, I would still go with knn_model of 1 because it has the lowest misclassification error of 0.16, where every other model has an error of at least 0.2.
+
+In practice, I would make it an effot to use models with at least knn of 4 because in general, the usefulness of checking cross validation only works when you use a handful of neighbors as a reference. This becomes more and more useful when there are more and more points in the dataset.
+
+
+
+5. Random Forest Cross Validation Function Tutorial
+
+```{r}
+cv_k2 <- c()
+cv_k5 <- c()
+cv_k10 <- c()
+
+for (i in 1:30) {
+ cv_k2[i] <- my_rf_cv(2)
+ cv_k5[i] <- my_rf_cv(5)
+ cv_k10[i] <- my_rf_cv(10)
+}
+
+df2 <- data.frame(MSE = cv_k2, k = 2)
+df5 <- data.frame(MSE = cv_k5, k = 5)
+df10 <- data.frame(MSE = cv_k10, k = 10)
+
+df_all <- data.frame(df2, df5, df10)
+
+ggplot(df2, aes(k, MSE)) + geom_boxplot() +
+    geom_boxplot(data = df5) +
+    geom_boxplot(data = df10) +
+    labs(x = "Folds", y = "Mean Squared Error", title = "Error for randomForests of Different Folds") +
+    theme_bw(base_size = 16) +
+    theme_dark() +
+    theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+```{r}
+
+random_forest_table <- data.frame("Mean" = c(mean(cv_k2), mean(cv_k5), mean(cv_k10)),
+                                  "SD" = c(sd(cv_k2), sd(cv_k5), sd(cv_k10)))
+row.names(random_forest_table) <- c("k = 2", "k = 5", "k = 10")
+random_forest_table
+```
+
+After looking at the box plots and the results table, it seems as though the model with 10 folds has both the lowest mean squared error and standard deviation. This trend indicates that having more and more folds tends to lead to more accurate and precise results.
