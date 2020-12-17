@@ -1,10 +1,10 @@
 #' Hypothesis Test Function
 #'
-#' This function runs a one sample t test
+#' This function runs a one sample t test.
 #'
-#' @param x Numeric vector of data
-#' @param alternative Character that represents what the alternative hypothesis is
-#' @param mu Numeric that represents the null hypothesis value for the mean
+#' @param x - Numeric vector of data
+#' @param alternative - Character that represents what the alternative hypothesis is
+#' @param mu - Numeric that represents the null hypothesis value for the mean
 #' @keywords inference
 #'
 #' @return A list with the following variables:
@@ -17,6 +17,7 @@
 #'
 #' @examples
 #' my_t.test(my_gapminder$lifeExp, "greater", 59)
+#' my_t.test(my_gapminder$lifeExp, "less", 60)
 #'
 #' @export
 my_t.test <- function(x, alternative, mu) {

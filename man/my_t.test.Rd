@@ -7,11 +7,17 @@
 my_t.test(x, alternative, mu)
 }
 \arguments{
-\item{x}{Numeric vector of data}
+\item{x}{\itemize{
+\item Numeric vector of data
+}}
 
-\item{alternative}{Character that represents what the alternative hypothesis is}
+\item{alternative}{\itemize{
+\item Character that represents what the alternative hypothesis is
+}}
 
-\item{mu}{Numeric that represents the null hypothesis value for the mean}
+\item{mu}{\itemize{
+\item Numeric that represents the null hypothesis value for the mean
+}}
 }
 \value{
 A list with the following variables:
@@ -23,10 +29,11 @@ A list with the following variables:
 }
 }
 \description{
-This function runs a one sample t test
+This function runs a one sample t test.
 }
 \examples{
 my_t.test(my_gapminder$lifeExp, "greater", 59)
+my_t.test(my_gapminder$lifeExp, "less", 60)
 
 }
 \keyword{inference}
