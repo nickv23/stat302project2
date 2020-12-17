@@ -8,24 +8,24 @@ my_t.test(x, alternative, mu)
 }
 \arguments{
 \item{x}{\itemize{
-\item Numeric vector of data
+\item Numeric vector of data.
 }}
 
 \item{alternative}{\itemize{
-\item Character that represents what the alternative hypothesis is
+\item Character that represents what the alternative hypothesis is.
 }}
 
 \item{mu}{\itemize{
-\item Numeric that represents the null hypothesis value for the mean
+\item Numeric that represents the null hypothesis value for the mean.
 }}
 }
 \value{
 A list with the following variables:
 \itemize {
-\item test_stat - A numeric representing the t value
-\item df - A numeric representing the degrees of freedom
-\item alternative - A character that represents what the alternative hypothesis is
-\item p_val - A numeric representing the p value
+\item test_stat - A numeric representing the t value.
+\item df - A numeric representing the degrees of freedom.
+\item alternative - A character that represents what the alternative hypothesis is.
+\item p_val - A numeric representing the p value.
 }
 }
 \description{

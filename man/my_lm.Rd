@@ -7,13 +7,13 @@
 my_lm(formula, data)
 }
 \arguments{
-\item{formula}{A class object used to fit models}
+\item{formula}{A class object used to fit models.}
 
-\item{data}{An input data frame}
+\item{data}{An input data frame.}
 }
 \value{
 A table with four numbers representing the estimate, standard error, t value, and Pr(>|t|)
-for each coefficient
+for each coefficient.
 }
 \description{
 This function runs a linear regression on a set of data.

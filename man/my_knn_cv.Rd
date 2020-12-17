@@ -8,26 +8,26 @@ my_knn_cv(train, cl, k_nn, k_cv)
 }
 \arguments{
 \item{train}{\itemize{
-\item An input data frame
+\item An input data frame.
 }}
 
 \item{cl}{\itemize{
-\item Vector of the true class values of the training data
+\item Vector of the true class values of the training data.
 }}
 
 \item{k_nn}{\itemize{
-\item Numeric representing the number of neighbors
+\item Numeric representing the number of neighbors.
 }}
 
 \item{k_cv}{\itemize{
-\item Numeric representing the number of folds
+\item Numeric representing the number of folds.
 }}
 }
 \value{
 A list with two objects:
 \itemize {
-\item class - Vector with the predicted class values of the testing data
-\item cv_err - Numeric representing the rate of misclassification
+\item class - Vector with the predicted class values of the testing data.
+\item cv_err - Numeric representing the rate of misclassification.
 }
 }
 \description{

@@ -8,11 +8,11 @@ my_rf_cv(k)
 }
 \arguments{
 \item{k}{\itemize{
-\item Numeric indicating the number of folds
+\item A numeric indicating the number of folds.
 }}
 }
 \value{
-A numeric indicating the cross-validation error
+A numeric indicating the cross-validation error.
 }
 \description{
 This function uses performs random forests to predict the body mass of penguins using the bill length, bill depth,
